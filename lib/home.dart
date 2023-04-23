@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({super.key});
@@ -66,6 +67,39 @@ class _MyHomeState extends State<MyHome> {
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: PopupMenuButton(
+          color: Colors.black,
+          icon: Icon(
+            Icons.menu,
+            color: Colors.white,
+          ),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              child: TextButton(
+                child: Text(
+                  'Projects',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'project');
+                },
+              ),
+              value: 1,
+            ),
+            PopupMenuItem(
+              child: TextButton(
+                child: Text(
+                  'About Me',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'about');
+                },
+              ),
+              value: 2,
+            ),
+          ],
+        ),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -83,12 +117,62 @@ class _MyHomeState extends State<MyHome> {
         ),
         // The body widget will be displayed under the SlidingSheet
         // and a parallax effect can be applied to it.
-        body: Center(
-          child: Text(
-            'This widget is below the SlidingSheet',
-            style: TextStyle(color: Colors.white),
+        body: Container(
+          child: Stack(
+            children: [
+              Transform.translate(
+                offset: Offset(0, -60), // shift the image upwards by 50 pixels
+                child: Container(
+                  margin: EdgeInsets.only(left: 30),
+                  child: ShaderMask(
+                    shaderCallback: (rect) {
+                      return LinearGradient(
+                        begin: Alignment.center,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.black, Colors.transparent],
+                      ).createShader(
+                        Rect.fromLTRB(0, 0, rect.width, rect.height),
+                      );
+                    },
+                    blendMode: BlendMode.dstIn,
+                    child: Image.asset(
+                      'assets/myImagepng.png',
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.49),
+                child: Column(
+                  children: [
+                    Text(
+                      'Sahil Bansal',
+                      style: TextStyle(
+                          fontFamily: "Soho",
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Text(
+                      'Android Developer',
+                      style: TextStyle(
+                        fontFamily: "Soho",
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
         ),
+
         builder: (context, state) {
           return Container(
               margin: EdgeInsets.only(left: 20, top: 30, right: 20),
